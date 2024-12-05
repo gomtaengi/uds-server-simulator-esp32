@@ -7,6 +7,7 @@ Simulatable services:
 - 0x10: Diagnostic Session Control
 - 0x22: ReadDataByIdentifier
   - not support multi-did data read
+- 0x23: Read Memory By Address (new)
 - 0x27: Security Access
 - 0x2E: WriteDataByIdentifier
 - 0x2F: InputOutputControlByIdentifier
@@ -14,6 +15,7 @@ Simulatable services:
 - 0x35: RequestUpload
 - 0x36: TransferData
 - 0x37: RequestTransferExit
+- 0x3D: Write Memory By Address (new)
 - 0x3E: TesterPresent
 
 
