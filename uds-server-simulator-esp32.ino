@@ -164,18 +164,22 @@ void loop()
     }
     dash_server.handleClient();
   }
-  else if (mode == RUN_MODE_CAN_CONTROL) {
+  else if (mode == RUN_MODE_CAN_CONTROL)
+  {
     static uint32_t speed_lastStamp = 0;
     static uint32_t rand_lastStamp = 0;
     uint32_t currentStamp = millis();
-    if (currentStamp - speed_lastStamp > 100) {
+    if (currentStamp - speed_lastStamp > 100)
+    {
       speed_lastStamp = currentStamp;
       check_gpio();
       send_speed();
     }
-    if (currentStamp - rand_lastStamp > 1000) {
+    if (currentStamp - rand_lastStamp > 1000)
+    {
       rand_lastStamp = currentStamp;
-      if (random_frame) {
+      if (random_frame)
+      {
         // Generate random CAN data per second
         sendRandomFrame();
         uint8_t buffer[256] = {0};

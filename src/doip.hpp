@@ -27,23 +27,23 @@
 /* End */
 
 /* Generic DoIP header NACK codes  */
-#define INCORRECT_PATTERN_FORMAT        0x00  // Close socket
-#define UNKNOWN_PAYLOAD_TYPE            0x01  // Discard DoIP message
-#define MESSAGE_TOO_LARGE               0x02  // Discard DoIP message
-#define OUT_OF_MEMORY                   0x03  // Discard DoIP message
-#define INVALID_PAYLOAD_LENGTH          0x04  // Close socket
+#define INCORRECT_PATTERN_FORMAT 0x00 // Close socket
+#define UNKNOWN_PAYLOAD_TYPE 0x01     // Discard DoIP message
+#define MESSAGE_TOO_LARGE 0x02        // Discard DoIP message
+#define OUT_OF_MEMORY 0x03            // Discard DoIP message
+#define INVALID_PAYLOAD_LENGTH 0x04   // Close socket
 /* End */
 
 /* Diagnostic message negative acknowledge codes */
-#define INVALID_SOURCE_ADDRESS          0x02
-#define UNKNOWN_TARGET_ADDRESS          0x03
-#define DIAGNOSTIC_MESSAGE_TOO_LARGE    0x04
-#define DMSG_OUT_OF_MEMORY              0x05
+#define INVALID_SOURCE_ADDRESS 0x02
+#define UNKNOWN_TARGET_ADDRESS 0x03
+#define DIAGNOSTIC_MESSAGE_TOO_LARGE 0x04
+#define DMSG_OUT_OF_MEMORY 0x05
 /* End */
 
 // Routing activation response code values
-#define ROUTING_UNSUPPORTED_TYPE        0x06
-#define ROUTING_ACTIVATION_SUCCESSFUL   0x10
+#define ROUTING_UNSUPPORTED_TYPE 0x06
+#define ROUTING_ACTIVATION_SUCCESSFUL 0x10
 
 /* Others */
 #define DOIP_HEADER_LENGTH 8
@@ -66,7 +66,7 @@ public:
     size_t getPayloadLength();
     uint8_t *getData();
     size_t getDataLength();
-    uint8_t* getPayload();
+    uint8_t *getPayload();
     uint16_t getPayloadType();
     void setPayload(uint8_t *data, size_t length);
     void setUDSPayload(uint8_t *data, size_t len, uint16_t source, uint16_t target);
@@ -80,35 +80,42 @@ private:
     uint8_t *payload;
 };
 
-
 void doip_server_init();
 void doip_identification_announcement(WiFiUDP *udp_client);
-void handle_doip_frame(DoIPFrame *frame, WiFiClient *tcp_client, WiFiUDP* udp_client, int client_type);
-std::pair<uint8_t*, size_t> gen_identification_response_payload(char *VIN, uint16_t LogicalAddress, uint8_t *EID, uint8_t *GID);
-std::pair<uint8_t*, size_t> gen_routing_activation_response_payload(uint16_t ClientLogicalAddress, uint16_t DoIPLogicalAddress, uint8_t code);
-std::pair<uint8_t*, size_t> gen_diagnostic_positive_ack_payload(uint16_t SourceAddress, uint16_t TargetAddress);
-std::pair<uint8_t*, size_t> gen_diagnostic_positive_nack_payload(uint16_t SourceAddress, uint16_t TargetAddress, uint8_t NRC);
+void handle_doip_frame(DoIPFrame *frame, WiFiClient *tcp_client, WiFiUDP *udp_client, int client_type);
+std::pair<uint8_t *, size_t> gen_identification_response_payload(char *VIN, uint16_t LogicalAddress, uint8_t *EID, uint8_t *GID);
+std::pair<uint8_t *, size_t> gen_routing_activation_response_payload(uint16_t ClientLogicalAddress, uint16_t DoIPLogicalAddress, uint8_t code);
+std::pair<uint8_t *, size_t> gen_diagnostic_positive_ack_payload(uint16_t SourceAddress, uint16_t TargetAddress);
+std::pair<uint8_t *, size_t> gen_diagnostic_positive_nack_payload(uint16_t SourceAddress, uint16_t TargetAddress, uint8_t NRC);
 
-namespace doip_uds {
-    unsigned int get_did_from_frame(uint8_t* frame);
+namespace doip_uds
+{
+    unsigned int get_did_from_frame(uint8_t *frame);
+    void *get_memory_address_from_frame(uint8_t *frame);
+    uint64_t get_memory_size_from_frame(uint8_t *frame);
+    void *get_frame_data_pointer_from_frame(uint8_t *frame);
 
-    int isIncorrectMessageLengthOrInvalidFormat(uint8_t* frame, size_t len);
+    int isIncorrectMessageLengthOrInvalidFormat(uint8_t *frame, size_t len);
     int isSFExisted(WiFiClient &tcp_client, int sid, int sf);
     int isNonDefaultModeTimeout(WiFiClient &tcp_client, int sid);
 
     void send_negative_response(WiFiClient &tcp_client, int sid, int nrc);
 
-    void session_mode_change(WiFiClient &tcp_client, uint8_t* frame);
-    void tester_present(WiFiClient &tcp_client, uint8_t* frame);
-    void read_data_by_id(WiFiClient &tcp_client, uint8_t* frame);
-    void write_data_by_id(WiFiClient &tcp_client, uint8_t* frame, size_t len);
-    void security_access(WiFiClient &tcp_client, uint8_t* frame);
-    void io_control_by_did(WiFiClient &tcp_client, uint8_t* frame);
-    void request_download_or_upload(WiFiClient &tcp_client, uint8_t* frame, int sid, size_t len);
-    void transfer_data(WiFiClient &tcp_client, uint8_t* frame);
-    void xfer_exit(WiFiClient &tcp_client, uint8_t* frame);
+    void session_mode_change(WiFiClient &tcp_client, uint8_t *frame);
+    void tester_present(WiFiClient &tcp_client, uint8_t *frame);
+    void read_data_by_id(WiFiClient &tcp_client, uint8_t *frame);
+    void write_data_by_id(WiFiClient &tcp_client, uint8_t *frame, size_t len);
+    void security_access(WiFiClient &tcp_client, uint8_t *frame);
+    void io_control_by_did(WiFiClient &tcp_client, uint8_t *frame);
+    void request_download_or_upload(WiFiClient &tcp_client, uint8_t *frame, int sid, size_t len);
+    void transfer_data(WiFiClient &tcp_client, uint8_t *frame);
+    void xfer_exit(WiFiClient &tcp_client, uint8_t *frame);
 
-    void handle_pkt(WiFiClient &tcp_client, uint8_t* frame, size_t len);
+    // custom
+    void read_memory_by_address(WiFiClient &tcp_client, uint8_t *frame);
+    void write_memory_by_address(WiFiClient &tcp_client, uint8_t *frame);
+
+    void handle_pkt(WiFiClient &tcp_client, uint8_t *frame, size_t len);
 }
 
 extern void reset_relevant_variables();

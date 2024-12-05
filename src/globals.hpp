@@ -9,27 +9,26 @@
 #include "../third/ESP32-TWAI-CAN.hpp"
 #include "doip.hpp"
 
-
 // Default for ESP32
 #define CAN_TX 5
 #define CAN_RX 4
 
-#define RUN_MODE_CAN                  0x0
-#define RUN_MODE_DOIP                 0x1
-#define RUN_MODE_CAN_DASHBOARD        0x2
-#define RUN_MODE_CAN_CONTROL          0x3
+#define RUN_MODE_CAN 0x0
+#define RUN_MODE_DOIP 0x1
+#define RUN_MODE_CAN_DASHBOARD 0x2
+#define RUN_MODE_CAN_CONTROL 0x3
 
-#define SPEED_UP_GPIO               GPIO_NUM_12
-#define MAX_SPEED                   655
+#define SPEED_UP_GPIO GPIO_NUM_12
+#define MAX_SPEED 655
 
-#define DEFAULT_SPEED_ID            0x255
-#define DEFAULT_DOOR_ID             0x166
-#define DEFAULT_TURN_SIGNAL_ID      0x177
+#define DEFAULT_SPEED_ID 0x255
+#define DEFAULT_DOOR_ID 0x166
+#define DEFAULT_TURN_SIGNAL_ID 0x177
 
-#define DOOR_FRONT_LEFT_LOCK    1
-#define DOOR_FRONT_RIGHT_LOCK   2
-#define DOOR_REAR_LEFT_LOCK     4
-#define DOOR_REAR_RIGHT_LOCK    8
+#define DOOR_FRONT_LEFT_LOCK 1
+#define DOOR_FRONT_RIGHT_LOCK 2
+#define DOOR_REAR_LEFT_LOCK 4
+#define DOOR_REAR_RIGHT_LOCK 8
 
 #define DOIP_PORT 13400
 #define UDP_CLIENT 0
@@ -102,7 +101,8 @@ extern int DID_Security_21[100];
 extern int DID_Security_21_Num;
 extern int DID_NUM;
 
-struct DIDKeyValuePair {
+struct DIDKeyValuePair
+{
   int key;
   uint8_t value[256];
 };
@@ -112,5 +112,7 @@ extern int DID_IO_Control_Num;
 
 extern uint16_t TesterLogicalAddress;
 extern uint16_t ECULogicalAddress;
+
+extern void *memory_ptr;
 
 #endif // GLOBALS_H
